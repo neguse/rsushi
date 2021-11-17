@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math"
 	"math/rand"
 
 	"github.com/ebiten/emoji"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 const Delta = 1.0 / 60.0
@@ -84,6 +86,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, s := range g.Sushis {
 		g.DrawSushi(screen, s)
 	}
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("FPS:%3.2f", ebiten.CurrentFPS()))
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
