@@ -86,7 +86,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, s := range g.Sushis {
 		g.DrawSushi(screen, s)
 	}
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("FPS:%3.2f", ebiten.CurrentFPS()))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Sushis:%3d FPS:%3.2f", len(g.Sushis), ebiten.CurrentFPS()))
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
