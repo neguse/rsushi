@@ -17,6 +17,7 @@ type Sushi struct {
 	TimeLeft float64
 	R        float64
 	DR       float64
+	Scale    float64
 }
 
 func (s *Sushi) Update() {
@@ -34,7 +35,7 @@ func (g *Game) DrawSushi(screen *ebiten.Image, s *Sushi) {
 	geom.Reset()
 	geom.Translate(-float64(sushi.Bounds().Dx())/2, -float64(sushi.Bounds().Dy())/2)
 	geom.Scale(1/float64(sushi.Bounds().Dx()), 1/float64(sushi.Bounds().Dy()))
-	scale := math.Max(math.Sin(math.Pi*((s.TimeInit-s.TimeLeft)/s.TimeInit))*40, 0.2)
+	scale := math.Sin(math.Pi*((s.TimeInit-s.TimeLeft)/s.TimeInit)) * s.Scale
 	geom.Scale(scale, scale)
 	geom.Rotate(s.R)
 	geom.Translate(float64(g.ScreenWidth)*s.X, float64(g.ScreenHeight)*s.Y)
@@ -70,6 +71,7 @@ func (g *Game) Update() error {
 			TimeLeft: t,
 			R:        rand.Float64() * math.Pi * 2,
 			DR:       rand.Float64() * math.Pi * 2,
+			Scale:    rand.Float64()*120 + 80,
 		})
 	}
 	g.Sushis = sushis
@@ -92,8 +94,8 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func main() {
 	game := &Game{
-		ScreenWidth:  320,
-		ScreenHeight: 240,
+		ScreenWidth:  640,
+		ScreenHeight: 480,
 	}
 	// Specify the window size as you like. Here, a doubled size is specified.
 	ebiten.SetWindowSize(640, 480)
