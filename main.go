@@ -32,16 +32,15 @@ func (s *Sushi) Dead() bool {
 }
 
 func (g *Game) DrawSushi(screen *ebiten.Image, s *Sushi) {
-	sushi := emoji.Image("🍣")
 	geom := &ebiten.GeoM{}
 	geom.Reset()
-	geom.Translate(-float64(sushi.Bounds().Dx())/2, -float64(sushi.Bounds().Dy())/2)
-	geom.Scale(1/float64(sushi.Bounds().Dx()), 1/float64(sushi.Bounds().Dy()))
+	geom.Translate(-float64(g.SushiImage.Bounds().Dx())/2, -float64(g.SushiImage.Bounds().Dy())/2)
+	geom.Scale(1/float64(g.SushiImage.Bounds().Dx()), 1/float64(g.SushiImage.Bounds().Dy()))
 	scale := math.Sin(math.Pi*((s.TimeInit-s.TimeLeft)/s.TimeInit)) * s.Scale
 	geom.Scale(scale, scale)
 	geom.Rotate(s.R)
 	geom.Translate(float64(g.ScreenWidth)*s.X, float64(g.ScreenHeight)*s.Y)
-	screen.DrawImage(sushi, &ebiten.DrawImageOptions{
+	screen.DrawImage(g.SushiImage, &ebiten.DrawImageOptions{
 		GeoM: *geom,
 	})
 }
@@ -51,6 +50,7 @@ type Game struct {
 	ScreenWidth, ScreenHeight int
 	Sushis                    []*Sushi
 	Tick                      int
+	SushiImage                *ebiten.Image
 }
 
 // Update proceeds the game state.
@@ -64,7 +64,15 @@ func (g *Game) Update() error {
 			sushis = append(sushis, s)
 		}
 	}
-	if g.Tick%4 == 0 {
+	spawn := false
+	if ebiten.CurrentFPS() > 60 {
+		spawn = true
+	} else if ebiten.CurrentFPS() > 30 && g.Tick%2 == 0 {
+		spawn = true
+	} else if ebiten.CurrentFPS() > 15 && g.Tick%4 == 0 {
+		spawn = true
+	}
+	if spawn {
 		t := rand.Float64()*4.0 + 2
 		sushis = append(sushis, &Sushi{
 			X:        rand.Float64(),
@@ -99,6 +107,7 @@ func main() {
 	game := &Game{
 		ScreenWidth:  640,
 		ScreenHeight: 480,
+		SushiImage:   emoji.Image("🍣"),
 	}
 	// Specify the window size as you like. Here, a doubled size is specified.
 	ebiten.SetWindowSize(640, 480)
