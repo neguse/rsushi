@@ -32,7 +32,7 @@ func (s *Sushi) Dead() bool {
 }
 
 func (g *Game) DrawSushi(screen *ebiten.Image, s *Sushi) {
-	geom := &ebiten.GeoM{}
+	geom := ebiten.GeoM{}
 	geom.Reset()
 	geom.Translate(-float64(g.SushiImage.Bounds().Dx())/2, -float64(g.SushiImage.Bounds().Dy())/2)
 	geom.Scale(1/float64(g.SushiImage.Bounds().Dx()), 1/float64(g.SushiImage.Bounds().Dy()))
@@ -40,8 +40,11 @@ func (g *Game) DrawSushi(screen *ebiten.Image, s *Sushi) {
 	geom.Scale(scale, scale)
 	geom.Rotate(s.R)
 	geom.Translate(float64(g.ScreenWidth)*s.X, float64(g.ScreenHeight)*s.Y)
+	color := ebiten.ColorM{}
+	color.RotateHue(s.R * 3.0)
 	screen.DrawImage(g.SushiImage, &ebiten.DrawImageOptions{
-		GeoM: *geom,
+		GeoM:   geom,
+		ColorM: color,
 	})
 }
 
