@@ -51,6 +51,7 @@ type Game struct {
 	Sushis                    []*Sushi
 	Tick                      int
 	SushiImage                *ebiten.Image
+	TimeMultiply              float64
 }
 
 // Update proceeds the game state.
@@ -67,13 +68,17 @@ func (g *Game) Update() error {
 	spawn := false
 	if ebiten.CurrentFPS() > 60 {
 		spawn = true
+		g.TimeMultiply += 0.7 * Delta
 	} else if ebiten.CurrentFPS() > 30 && g.Tick%2 == 0 {
 		spawn = true
+		g.TimeMultiply += 0.2 * Delta
 	} else if ebiten.CurrentFPS() > 15 && g.Tick%4 == 0 {
 		spawn = true
+		g.TimeMultiply -= 0.3 * Delta
 	}
+	g.TimeMultiply = math.Max(g.TimeMultiply, 1.0)
 	if spawn {
-		t := rand.Float64()*4.0 + 2
+		t := rand.Float64()*g.TimeMultiply + 2
 		sushis = append(sushis, &Sushi{
 			X:        rand.Float64(),
 			Y:        rand.Float64(),
@@ -108,6 +113,7 @@ func main() {
 		ScreenWidth:  640,
 		ScreenHeight: 480,
 		SushiImage:   emoji.Image("🍣"),
+		TimeMultiply: 4.0,
 	}
 	// Specify the window size as you like. Here, a doubled size is specified.
 	ebiten.SetWindowSize(640, 480)
