@@ -1,18 +1,17 @@
 module github.com/neguse/rsushi
 
-go 1.17
+go 1.23
 
 require (
-	github.com/ebiten/emoji v0.0.0-20210512170544-749d4b33f5fb
-	github.com/hajimehoshi/ebiten/v2 v2.2.2
+	github.com/ebiten/emoji v0.0.0-20211125104152-2c1b55029dbd
+	github.com/hajimehoshi/ebiten/v2 v2.7.10
 )
 
 require (
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20210727001814-0db043d8d5be // indirect
-	github.com/jezek/xgb v0.0.0-20210312150743-0e0f116e1240 // indirect
-	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56 // indirect
-	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
-	golang.org/x/mobile v0.0.0-20210902104108-5d9a33257ab5 // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20210917161153-d61c044b1678 // indirect
+	github.com/ebitengine/gomobile v0.0.0-20240518074828-e86332849895 // indirect
+	github.com/ebitengine/hideconsole v1.0.0 // indirect
+	github.com/ebitengine/purego v0.7.0 // indirect
+	github.com/jezek/xgb v1.1.1 // indirect
+	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 )
